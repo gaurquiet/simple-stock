@@ -2,6 +2,7 @@ package com.simple.stock;
 import com.simple.stock.controller.StockController;
 import com.simple.stock.model.TradeRequest;
 import com.simple.stock.service.StockService;
+import com.simple.stock.service.StockServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

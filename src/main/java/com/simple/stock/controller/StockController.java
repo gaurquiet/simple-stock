@@ -2,6 +2,7 @@ package com.simple.stock.controller;
 
 import com.simple.stock.model.TradeRequest;
 import com.simple.stock.service.StockService;
+import com.simple.stock.service.StockServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
