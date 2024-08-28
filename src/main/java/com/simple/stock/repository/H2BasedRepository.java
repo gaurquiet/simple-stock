@@ -23,4 +23,9 @@ public class H2BasedRepository implements StockRepository{
     public void save(Stock stock) {
 
     }
+
+    @Override
+    public void deleteAll() {
+
+    }
 }

@@ -36,4 +36,9 @@ public class MapBasedRepository implements StockRepository{
     public void save(Stock stock) {
         container.put(stock.getSymbol(), stock);
     }
+
+    @Override
+    public void deleteAll() {
+        container.clear();
+    }
 }
