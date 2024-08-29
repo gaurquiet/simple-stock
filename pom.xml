@@ -31,14 +31,19 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
+			<groupId>org.springframework.restdocs</groupId>
+			<artifactId>spring-restdocs-mockmvc</artifactId>
+			<version>3.0.0</version>
+			<scope>test</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
 		<dependency>
@@ -55,6 +60,29 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
+					<plugin>
+						<groupId>org.asciidoctor</groupId>
+						<artifactId>asciidoctor-maven-plugin</artifactId>
+						<version>2.2.0</version> <!-- Ensure the version is compatible with your setup -->
+						<executions>
+							<execution>
+								<id>generate-docs</id>
+								<phase>prepare-package</phase> <!-- This phase ensures docs are generated before packaging -->
+								<goals>
+									<goal>process-asciidoc</goal>
+								</goals>
+								<configuration>
+									<backend>html</backend>
+									<sourceDirectory>${project.build.directory}/generated-snippets</sourceDirectory>
+									<outputDirectory>${project.build.directory}/docs</outputDirectory>
+									<attributes>
+										<snippets>${project.build.directory}/generated-snippets</snippets>
+									</attributes>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
 		</plugins>
 	</build>
 	<repositories>

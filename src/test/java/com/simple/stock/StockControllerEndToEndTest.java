@@ -2,11 +2,13 @@ package com.simple.stock;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
@@ -14,15 +16,18 @@ import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.within;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 
 @SpringBootTest(classes = SuperSimpleStockApplication.class)
 @AutoConfigureMockMvc
-@ActiveProfiles("test") // Use a separate profile for testing
+@ActiveProfiles("test")
+@AutoConfigureRestDocs// Use a separate profile for testing
 class StockControllerEndToEndTest {
 
     @Autowired
     private MockMvc mockMvc;
-
 
     @Test
     void testGetDividendYield() throws Exception {
@@ -57,11 +62,14 @@ class StockControllerEndToEndTest {
                 }
                 """;
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/stocks/POP/trade")
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post("/stocks/POP/trade")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(tradeRequestJson))
-                .andExpect(MockMvcResultMatchers.status().isOk());
-
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(document("record-trade",
+                preprocessRequest(prettyPrint()),
+                preprocessResponse(prettyPrint())
+        ));;
     }
 
 }
