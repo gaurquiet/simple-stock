@@ -44,21 +44,14 @@ public class StockServiceImpl implements StockService{
     public void recordTrade(String symbol, int quantity, String indicator, double price) {
         Stock stock = stockRepository.findBySymbol(symbol).orElseThrow(
                 () -> new StockNotFoundException(symbol));
-        if (stock != null) {
             stock.recordTrade(new Trade(new Date(), quantity, indicator, price));
-        } else {
-            throw new IllegalArgumentException("Stock symbol not found");
-        }
     }
 
     @Override
     public double calculateVolumeWeightedStockPrice(String symbol) {
         Stock stock = stockRepository.findBySymbol(symbol).orElseThrow(
                 () -> new StockNotFoundException(symbol));
-        if (stock != null) {
             return stock.calculateVolumeWeightedStockPrice();
-        }
-        throw new IllegalArgumentException("Stock symbol not found");
     }
 
     @Override

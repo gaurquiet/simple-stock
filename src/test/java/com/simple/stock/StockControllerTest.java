@@ -2,7 +2,6 @@ package com.simple.stock;
 import com.simple.stock.controller.StockController;
 import com.simple.stock.model.TradeRequest;
 import com.simple.stock.service.StockService;
-import com.simple.stock.service.StockServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -15,6 +14,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class StockControllerTest {
@@ -39,7 +39,9 @@ class StockControllerTest {
 
         mockMvc.perform(get("/stocks/POP/dividendYield")
                         .param("price", "120.0"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(content().string("0.1"));
+
 
         verify(stockService).calculateDividendYield("POP", 120.0);
     }
@@ -50,7 +52,8 @@ class StockControllerTest {
 
         mockMvc.perform(get("/stocks/POP/peRatio")
                         .param("price", "120.0"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(content().string("15.0"));;
 
         verify(stockService).calculatePERatio("POP", 120.0);
     }
@@ -72,7 +75,8 @@ class StockControllerTest {
         when(stockService.calculateVolumeWeightedStockPrice("POP")).thenReturn(115.0);
 
         mockMvc.perform(get("/stocks/POP/vwsp"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(content().string("115.0"));;
 
         verify(stockService).calculateVolumeWeightedStockPrice("POP");
     }
@@ -82,7 +86,8 @@ class StockControllerTest {
         when(stockService.calculateAllShareIndex()).thenReturn(150.0);
 
         mockMvc.perform(get("/stocks/allShareIndex"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(content().string("150.0"));;
 
         verify(stockService).calculateAllShareIndex();
     }
